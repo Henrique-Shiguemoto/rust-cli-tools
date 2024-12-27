@@ -3,4 +3,18 @@ name = "cli-tools"
 version = "0.1.0"
 edition = "2021"
 
+[[bin]]
+name = "rng"
+path = "src/rng.rs"
+
+[[bin]]
+name = "clc"
+path = "src/clc.rs"
+
+[[bin]]
+name = "passgen"
+path = "src/passgen.rs"
+
 [dependencies]
+num-traits = "0.2.19"
+rand = "0.8.5"

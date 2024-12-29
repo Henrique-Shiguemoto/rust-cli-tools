@@ -15,6 +15,10 @@ path = "src/clc.rs"
 name = "passgen"
 path = "src/passgen.rs"
 
+[[bin]]
+name = "rmt"
+path = "src/rmt.rs"
+
 [dependencies]
 num-traits = "0.2.19"
 rand = "0.8.5"

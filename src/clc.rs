@@ -10,7 +10,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     "c", "rs", "cpp", "h", "hpp", "py", "dart", "java", "cs", "sql", 
     "yaml", "json", "R", "css", "js", "bat", "sh", "cmake", "Makefile", 
     "mk", "glsl", "hlsl", "txt", "cfg", "config", "ini", "xml", "frag", 
-    "vert"];
+    "vert", "md"];
 
     let entries: Vec<DirEntry> = WalkDir::new(".").into_iter().filter_map(|e| e.ok()).collect();
     let mut entries_to_analyze : Vec<PathBuf> = vec![];

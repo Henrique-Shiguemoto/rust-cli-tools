@@ -6,7 +6,11 @@ use std::io::BufReader;
 use std::io::Read;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let source_code_extensions: Vec<&str> = vec!["c", "rs", "cpp", "h", "hpp", "py", "dart", "java", "cs", "sql", "yaml", "json", "R", "css", "js"]; // can add more of course
+    let source_code_extensions: Vec<&str> = vec![
+    "c", "rs", "cpp", "h", "hpp", "py", "dart", "java", "cs", "sql", 
+    "yaml", "json", "R", "css", "js", "bat", "sh", "cmake", "Makefile", 
+    "mk", "glsl", "hlsl", "txt", "cfg", "config", "ini", "xml", "frag", 
+    "vert"];
 
     let entries: Vec<DirEntry> = WalkDir::new(".").into_iter().filter_map(|e| e.ok()).collect();
     let mut entries_to_analyze : Vec<PathBuf> = vec![];

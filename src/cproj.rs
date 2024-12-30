@@ -30,9 +30,9 @@ Short description...\n
 - Technology 1\n
 - Technology 2\n", project_name = args[1]);
     
-    let readme_contents: &str = readme_contents_string.as_str();
+    	let readme_contents: &str = readme_contents_string.as_str();
 
-    let src_main_c: &str = 
+    	let src_main_c: &str = 
 "
 #include <stdio.h>
 
@@ -42,7 +42,7 @@ int main(void){
 }
 ";
 
-	let gitignore : &str = 
+		let gitignore : &str = 
 "
 # Prerequisites
 *.d
@@ -99,7 +99,7 @@ Mkfile.old
 dkms.conf
 ";
 
-	let makefile : &str = 
+		let makefile : &str = 
 "
 CC = gcc
 CFLAGS = -Wall -Wextra -pedantic -g -std=c11 -Wno-unused-parameter -Wno-unused-variable
@@ -129,6 +129,13 @@ clean:
 
 .PHONY: all clean
 ";
+	
+		let todo_txt: &str = 
+"
+- TODO 1
+- TODO 2
+- TODO 3
+";
 
 		let project_folder_path: &str = &args[1].clone();
 
@@ -137,12 +144,14 @@ clean:
 		let full_path_src_main_c = &format!("./{project_folder_path}/src/main.c").to_string();
 		let full_path_gitignore = &format!("./{project_folder_path}/.gitignore").to_string();
 		let full_path_makefile = &format!("./{project_folder_path}/Makefile").to_string();
+		let full_path_todo = &format!("./{project_folder_path}/TODO.txt").to_string();
 
 		let vec_file_contents_files_paths: Vec<(&str, &str)> = vec![
 			(readme_contents, full_path_readme),
 			(src_main_c, full_path_src_main_c),
 			(gitignore, full_path_gitignore),
 			(makefile, full_path_makefile),
+			(todo_txt, full_path_todo),
 		];
 
 		// Create directories needed first

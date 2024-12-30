@@ -19,6 +19,10 @@ path = "src/passgen.rs"
 name = "rmt"
 path = "src/rmt.rs"
 
+[[bin]]
+name = "cproj"
+path = "src/cproj.rs"
+
 [dependencies]
 num-traits = "0.2.19"
 rand = "0.8.5"

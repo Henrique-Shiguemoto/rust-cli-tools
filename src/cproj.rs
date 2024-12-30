@@ -36,7 +36,7 @@ Short description...\n
 "#include <stdio.h>
 
 int main(void){
-	printf(\"Hello World!\n\");
+	printf(\"Hello World!\\n\");	
 	return 0;
 }
 ";
@@ -97,34 +97,107 @@ Mkfile.old
 dkms.conf
 ";
 
-		let makefile : &str = 
-"CC = gcc
-CFLAGS = -Wall -Wextra -pedantic -g -std=c11 -Wno-unused-parameter -Wno-unused-variable
-TARGET = main
-SRCDIR = src
-OBJDIR = obj
+		let build_bat : &str = 
+"@echo off
 
-# Find all .c files in the project
-SRC = $(shell find $(SRCDIR) -name '*.c')
+:: Set up directories
+set SRC_DIR=src
+set BIN_DIR=bin
+set OUTPUT_EXE=main.exe
 
-# Convert .c file paths to .o file paths
-OBJ = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
+:: Create the BIN directory if it doesn't exist
+if not exist %BIN_DIR% mkdir %BIN_DIR%
 
-all: $(TARGET)
+:: Clear the BIN directory of old object files
+del /q %BIN_DIR%\\*.o > nul 2>&1
 
-# Link all object files into the executable
-$(TARGET): $(OBJ)
-	$(CC) $(OBJ) -o $@
+:: Compile all .c files in the src directory
+for %%f in (%SRC_DIR%\\*.c) do (
+    echo Compiling %%f...
+    gcc -c %%f -o %BIN_DIR%\\%%~nf.o
+    if errorlevel 1 goto :error
+)
 
-# Compile each .c file into an object file
-$(OBJDIR)/%.o: $(SRCDIR)/%.c
-	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+:: Link all .o files in the BIN directory to create the executable
+cd %BIN_DIR%
+echo Linking...
+gcc *.o -o %OUTPUT_EXE%
+if errorlevel 1 goto :error
+cd ..
 
-clean:
-	rm -rf $(OBJDIR) $(TARGET)
+echo Compilation and linking successful! Executable: %BIN_DIR%\\%OUTPUT_EXE%
+goto :eof
 
-.PHONY: all clean
+:error
+echo Error occurred during compilation or linking.
+exit /b 1
+";
+
+		let clean_bat: &str = 
+"@echo off
+
+:: Set the bin directory
+set BIN_DIR=bin
+
+:: Check if the bin directory exists
+if exist %BIN_DIR% (
+    echo Deleting *.o and *.exe files in %BIN_DIR%...
+    del /q %BIN_DIR%\\*.o > nul 2>&1
+    del /q %BIN_DIR%\\*.exe > nul 2>&1
+
+    echo Removing %BIN_DIR% directory...
+    rmdir /s /q %BIN_DIR%
+    echo Clean-up completed.
+) else (
+    echo %BIN_DIR% does not exist. Nothing to clean.
+)
+
+exit /b
+";
+
+		let build_sh: &str = 
+"SRC_DIR=\"src\"
+BIN_DIR=\"bin\"
+OUTPUT_EXE=\"main\"
+
+# Create the bin directory if it doesn't exist
+if [ ! -d \"$BIN_DIR\" ]; then
+    mkdir -p \"$BIN_DIR\"
+fi
+
+# Compile all .c files in the src directory
+echo \"Compiling source files...\"
+for file in $SRC_DIR/*.c; do
+    if [ -f \"$file\" ]; then
+        gcc -c \"$file\" -o \"$BIN_DIR/$(basename \"$file\" .c).o\"
+        if [ $? -ne 0 ]; then
+            echo \"Error: Compilation failed for $file\"
+            exit 1
+        fi
+    fi
+done
+
+# Link all .o files to create the executable
+echo \"Linking object files...\"
+gcc $BIN_DIR/*.o -o \"$BIN_DIR/$OUTPUT_EXE\"
+if [ $? -ne 0 ]; then
+    echo \"Error: Linking failed.\"
+    exit 1
+fi
+
+echo \"Build successful. Executable: $BIN_DIR/$OUTPUT_EXE\"
+";
+
+		let clean_sh: &str = 
+"BUILD_DIR=\"build\"
+
+if [ -d \"$BUILD_DIR\" ]; then
+    echo \"Cleaning build directory...\"
+    rm -rf \"$BUILD_DIR\"
+    echo \"Build directory removed.\"
+else
+    echo \"Build directory does not exist. Nothing to clean.\"
+fi
 ";
 	
 		let todo_txt: &str = 
@@ -149,17 +222,23 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
 		let full_path_readme = &format!("./{project_folder_path}/README.md").to_string();
 		let full_path_src_main_c = &format!("./{project_folder_path}/src/main.c").to_string();
 		let full_path_gitignore = &format!("./{project_folder_path}/.gitignore").to_string();
-		let full_path_makefile = &format!("./{project_folder_path}/Makefile").to_string();
 		let full_path_todo = &format!("./{project_folder_path}/TODO.txt").to_string();
 		let full_path_license = &format!("./{project_folder_path}/LICENSE").to_string();
+		let full_path_build_bat = &format!("./{project_folder_path}/build.bat").to_string();
+		let full_path_clean_bat = &format!("./{project_folder_path}/clean.bat").to_string();
+		let full_path_build_sh = &format!("./{project_folder_path}/build.sh").to_string();
+		let full_path_clean_sh = &format!("./{project_folder_path}/clean.sh").to_string();
 
 		let vec_file_contents_files_paths: Vec<(&str, &str)> = vec![
 			(readme_contents, full_path_readme),
 			(src_main_c, full_path_src_main_c),
 			(gitignore, full_path_gitignore),
-			(makefile, full_path_makefile),
 			(todo_txt, full_path_todo),
 			(license, full_path_license),
+			(build_bat, full_path_build_bat),
+			(clean_bat, full_path_clean_bat),
+			(build_sh, full_path_build_sh),
+			(clean_sh, full_path_clean_sh),
 		];
 
 		// Create directories needed first

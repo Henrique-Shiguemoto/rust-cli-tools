@@ -133,6 +133,16 @@ clean:
 - TODO 3
 ";
 
+		let license: &str = 
+"Copyright © 2025 Henrique Shiguemoto Felizardo
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+";
+
 		let project_folder_path: &str = &args[1].clone();
 
 		let src_path = &format!("./{project_folder_path}/src").to_string();
@@ -141,6 +151,7 @@ clean:
 		let full_path_gitignore = &format!("./{project_folder_path}/.gitignore").to_string();
 		let full_path_makefile = &format!("./{project_folder_path}/Makefile").to_string();
 		let full_path_todo = &format!("./{project_folder_path}/TODO.txt").to_string();
+		let full_path_license = &format!("./{project_folder_path}/LICENSE").to_string();
 
 		let vec_file_contents_files_paths: Vec<(&str, &str)> = vec![
 			(readme_contents, full_path_readme),
@@ -148,6 +159,7 @@ clean:
 			(gitignore, full_path_gitignore),
 			(makefile, full_path_makefile),
 			(todo_txt, full_path_todo),
+			(license, full_path_license),
 		];
 
 		// Create directories needed first

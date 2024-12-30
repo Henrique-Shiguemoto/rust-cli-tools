@@ -33,8 +33,7 @@ Short description...\n
     	let readme_contents: &str = readme_contents_string.as_str();
 
     	let src_main_c: &str = 
-"
-#include <stdio.h>
+"#include <stdio.h>
 
 int main(void){
 	printf(\"Hello World!\n\");
@@ -43,8 +42,7 @@ int main(void){
 ";
 
 		let gitignore : &str = 
-"
-# Prerequisites
+"# Prerequisites
 *.d
 
 # Object files
@@ -100,8 +98,7 @@ dkms.conf
 ";
 
 		let makefile : &str = 
-"
-CC = gcc
+"CC = gcc
 CFLAGS = -Wall -Wextra -pedantic -g -std=c11 -Wno-unused-parameter -Wno-unused-variable
 TARGET = main
 SRCDIR = src
@@ -131,8 +128,7 @@ clean:
 ";
 	
 		let todo_txt: &str = 
-"
-- TODO 1
+"- TODO 1
 - TODO 2
 - TODO 3
 ";

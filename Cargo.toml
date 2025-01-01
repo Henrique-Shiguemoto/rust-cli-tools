@@ -23,6 +23,10 @@ path = "src/rmt.rs"
 name = "cproj"
 path = "src/cproj.rs"
 
+[[bin]]
+name = "todos"
+path = "src/todos.rs"
+
 [dependencies]
 num-traits = "0.2.19"
 rand = "0.8.5"

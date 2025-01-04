@@ -13,7 +13,6 @@ fn usage() {
     println!("\nSUBSUBCOMMANDS:");
     println!("\t-qX          : sets the quantity of passwords generated to X (X in [1, 255]), default is 1");
     println!("\t-bString     : sets the beginning of the password to String (size has to be in [1, 255] and smaller than X from -lX parameter), empty string by default");
-    println!("\t-help        : prints this guide");
 }
 
 fn create_password(rng: &mut rand::rngs::ThreadRng, characters_allowed: Vec<char>, password_size: usize, left_string: Vec<char>) -> String {

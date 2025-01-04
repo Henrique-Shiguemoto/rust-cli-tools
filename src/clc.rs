@@ -24,6 +24,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let pattern_exclude_exts = Regex::new(r"^-extexclude=.*").unwrap();
         if args[1] == "-help" {
             usage();
+            return Ok(());
         } else {
             let pathexclude_element: Option<&String> = args.iter().find(|s| pattern_exclude_paths.is_match(s));
             let extexclude_element: Option<&String> = args.iter().find(|s| pattern_exclude_exts.is_match(s));

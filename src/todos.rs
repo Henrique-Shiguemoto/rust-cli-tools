@@ -34,10 +34,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         let mut line_number: usize = 0;
         for line in str_split_into_newlines {
-        	if line.contains(todo_str) {
+        	line_number += 1;
+            if line.contains(todo_str) {
         		println!("File: {filepath} ({line_number}): {line}", filepath = entry.to_str().unwrap());
         	}
-        	line_number += 1;
         }
     }
 
